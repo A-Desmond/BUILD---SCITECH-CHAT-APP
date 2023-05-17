@@ -1,8 +1,9 @@
+import 'package:chat_app/model/message_model.dart';
 import 'package:flutter/material.dart';
 
 class ChatCard extends StatelessWidget {
   final bool isMyMessage;
-  final String message;
+  final Message message;
   const ChatCard({super.key, required this.isMyMessage, required this.message});
 
   @override
@@ -15,7 +16,18 @@ class ChatCard extends StatelessWidget {
         shape: BoxShape.rectangle,
         color: isMyMessage ? Colors.blue : Colors.grey,
       ),
-      child: Text(message),
+      child: Column(
+        
+        children: [
+          Row(
+            children: [
+              Text(message.name),
+              Text(message.time.toString())
+            ],
+          ),
+       Expanded(child: Text(message.text)),
+        ],
+      )
     );
   }
 }
