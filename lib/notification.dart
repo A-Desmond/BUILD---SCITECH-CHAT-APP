@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:chat_app/core/constant.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-class Notification {
+class  MyNotification {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
   void initPushNotification() async {
     await _messaging.requestPermission(
@@ -12,7 +13,7 @@ class Notification {
       sound: true,
       announcement: true,
     );
-    _messaging.subscribeToTopic('chat');
+  kIsWeb ? null :  _messaging.subscribeToTopic('chat');
   }
 
   Future<void> sendNotification(

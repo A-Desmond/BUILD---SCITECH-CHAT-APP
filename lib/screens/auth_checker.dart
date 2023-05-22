@@ -23,11 +23,11 @@ class AuthChecker extends StatelessWidget {
         }
       } else {
         return const Center(
-          child: Text('Something went wrong, Please restart the app'),
+          child: CircularProgressIndicator()
         );
       }
       return const Center(
-        child: CircularProgressIndicator(),
+        child: Text('Something went wrong, Please restart the app'),
       );
     }));
   }

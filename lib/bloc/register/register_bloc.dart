@@ -12,10 +12,16 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc({required this.remoteDataSource}) : super(RegisterInitial()) {
     on<RegisterUserEvent>(register);
     on<CheckAuthEvent>(authChecker);
+    // on<RegisterUserEvent>((event, emit)async{
+    //    emit(RegisterLoading())
+    // final result = await remoteDataSource.register(name: event.name);
+    // result.fold(
+    //     (l) => emit(RegisterFailure(l.error)), (r) => emit(RegisterSuccess()));
+    // });
   }
 
   void register(RegisterUserEvent event, Emitter emit) async {
-    emit(RegisterLoading);
+    emit(RegisterLoading());
     final result = await remoteDataSource.register(name: event.name);
     result.fold(
         (l) => emit(RegisterFailure(l.error)), (r) => emit(RegisterSuccess()));
@@ -23,10 +29,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
  void authChecker(CheckAuthEvent event,  Emitter emit)async{
     final token = await remoteDataSource.authCheck();
-    if(token!.isNotEmpty){
-      emit(AuthState(AuthEnum.authenticated));
+    if(token != null){
+      emit(const AuthState(AuthEnum.authenticated));
     }else{
-       emit(AuthState(AuthEnum.unAuthenticated));
+       emit(const AuthState(AuthEnum.unAuthenticated));
     }
  }
 

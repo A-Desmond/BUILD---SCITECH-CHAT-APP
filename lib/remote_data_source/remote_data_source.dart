@@ -34,7 +34,7 @@ class RemoteDataSource {
       Message message = Message(
           name: user.name, senderId: user.id, text: text, time: DateTime.now());
       await _firestore.collection('chat').add(message.toMap());
-      await Notification().sendNotification(title: user.name, body: text);
+      await MyNotification().sendNotification(title: user.name, body: text);
       return right(null);
     } catch (e) {
       return left(Failure(e.toString()));
@@ -44,7 +44,7 @@ class RemoteDataSource {
   Stream<List<Message>> getChat() {
     final chats = _firestore
         .collection('chat')
-        .orderBy('time', descending: false)
+        .orderBy('time', descending: true)
         .snapshots();
     final message = chats.map((chat) =>
         chat.docs.map((data) => Message.fromMap(data.data())).toList());
